@@ -7,7 +7,7 @@ export const PLAYER_INFO = async (queue: Queue, song: Song) => {
         .setAuthor({
             name: `${song.name?.substring(0, 25)}`,
             url: `${song.url}`,
-            iconURL: `https://i.ytimg.com/vi/4iu-2-yvhs0/maxresdefault.jpg?v=63f9106d`
+            iconURL: `${song.thumbnail ?? ""}`
         })
         .setFields([
             {
