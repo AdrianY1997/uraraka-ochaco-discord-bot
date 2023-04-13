@@ -14,6 +14,7 @@ export default new CommandBuilder()
             member: interaction.member,
             textChannel: interaction.channel!,
         })
+        client.distube.toggleAutoplay(interaction.guild)
         const msg = await interaction.reply("ready")
         msg.delete();
     });
