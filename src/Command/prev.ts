@@ -1,8 +1,8 @@
 import { CommandBuilder } from "../Component/Command";
 
 export default new CommandBuilder()
-    .setName("next")
-    .setDescription("Play the next song in the list")
+    .setName("prev")
+    .setDescription("Play the previous song in the list")
     .setCallback(async ({ client, interaction }) => {
-        client.distube.previous(interaction.guild);
+        client.distube.skip(interaction.guild);
     });
