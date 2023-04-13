@@ -1,14 +1,20 @@
 import { Queue, Song } from "distube";
 import { CustomDistube } from "./CustomDistube";
-import { PLAYER_BUTTONS, PLAYER_INFO } from '../Util/Embeds';
-import { TextChannel } from 'discord.js';
-import { ButtonBuilder } from '@discordjs/builders';
+import { PLAYER_INFO } from '../Util/Embeds';
 
 export async function player(distube: CustomDistube) {
+    distube.on("initQueue", async (queue: Queue) => {
+        
+    })
+
     distube.on("playSong", async (queue: Queue, song: Song) => {
-        queue.textChannel?.send({
+        const message = await queue.textChannel?.send({
             embeds: [await PLAYER_INFO(queue, song)],
-            components: [PLAYER_BUTTONS]
         })
+
+        await message?.react("⬅️")
+        await message?.react("⏹️")
+        await message?.react("⏯️")
+        await message?.react("➡️")
     })
 }
