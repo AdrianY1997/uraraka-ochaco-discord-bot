@@ -14,7 +14,11 @@ export default new CommandBuilder()
             member: interaction.member,
             textChannel: interaction.channel!,
         })
-        client.distube.toggleAutoplay(interaction.guild)
+
+        const queue = client.distube.getQueue(interaction.guild)
+
+        if (queue?.autoplay == false) queue?.toggleAutoplay()
+        
         const msg = await interaction.reply("ready")
         msg.delete();
     });
