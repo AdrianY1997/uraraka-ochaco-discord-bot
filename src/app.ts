@@ -8,7 +8,7 @@ import { BOT_TOKEN } from "./Config/Bot";
 http.createServer((req, res) => {
     res.write("I'm alive");
     res.end();
-}).listen(8080)
+}).listen(8080);
 
 const client = new CustomClient({
     intents: 3276799

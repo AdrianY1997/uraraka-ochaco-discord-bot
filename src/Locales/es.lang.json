@@ -1,0 +1,8 @@
+{
+    "commands": {
+        "help": {
+            "description": "Muestra un listado de comandos, y sus usos",
+            "reply": "No esta configurado aun! 😅"
+        }
+    }
+}

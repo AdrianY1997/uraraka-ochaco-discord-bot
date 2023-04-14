@@ -1,5 +1,6 @@
 import { ActivityType } from 'discord.js';
 import { EventBuilder } from '../../../Component/Event';
+import { init } from '../../../Component/InitBot';
 
 export default new EventBuilder('ready', true)
     .setCallback(async client => {
@@ -13,7 +14,7 @@ export default new EventBuilder('ready', true)
             ],
             afk: false
         });
-        console.log(`${client.user?.username} `)
+        console.log(`${client.user?.username} is ready`)
 
-        // client.guilds.cache.forEach(guild => init(guild));
+        client.guilds.cache.forEach(guild => init(guild));
     })

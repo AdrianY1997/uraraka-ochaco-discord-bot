@@ -1,0 +1,28 @@
+{
+    "common": {
+        "fields": {
+            "text": "By Greñas Crew Bot"
+        }
+    },
+    "config": {
+        "adminCommandsField": {
+            "name": "Administration commands."
+        },
+        "adminConfigMessage": {
+            "name": "Current server configuration.",
+            "value": "The following message has all the unique configuration of this server, manual modifications will damage the bot."
+        },
+        "embed": {
+            "title": "Config Channel",
+            "description": [
+                "This is the channel dedicated to the current and unique configuration file of this server.",
+                "",
+                "The use of this channel is exclusive for administrators and its changes affect some features of **{name}** such as defined channels, roles or command usage.",
+                "",
+                "THIS CHANNEL IS NOT FOR CHAT USE, WRITING HERE OR DELETING MESSAGES WILL DAMAGE THE BOT'S OPERATION..",
+                "",
+                "**List of currently active commands**"
+            ]
+        }
+    }
+}
