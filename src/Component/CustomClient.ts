@@ -16,7 +16,7 @@ export class CustomClient extends Client {
     constructor(options: ClientOptions) {
         super(options);
         this.distube = new CustomDistube(this, {
-            leaveOnStop: false,
+            leaveOnStop: true,
             emitNewSongOnly: true,
             emitAddSongWhenCreatingQueue: false,
             emitAddListWhenCreatingQueue: false,

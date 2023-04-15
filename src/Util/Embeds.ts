@@ -1,9 +1,9 @@
 import { EmbedBuilder, Colors } from 'discord.js';
 import { Queue, Song } from 'distube';
-import { configVariablesTypes } from './types';
+import { PlayerInfo, PlayerQueue, configVariablesTypes } from './types';
 
-export const PLAYER_INFO = async (queue?: Queue, song?: Song, isNew?: boolean) => {
-    if (isNew) {
+export const PLAYER_INFO = async (data: PlayerInfo) => {
+    if (data.isNew) {
         return new EmbedBuilder()
             .setColor(Colors.LuminousVividPink)
             .setAuthor({
@@ -17,63 +17,94 @@ export const PLAYER_INFO = async (queue?: Queue, song?: Song, isNew?: boolean) =
     return new EmbedBuilder()
         .setColor(Colors.LuminousVividPink)
         .setAuthor({
-            name: `${song?.name?.substring(0, 25)}...`,
-            url: song?.url,
+            name: `${data.song?.name?.substring(0, 25)}...`,
+            url: data.song?.url,
             iconURL: "https://cdn-icons-png.flaticon.com/512/2995/2995101.png"
         })
         .setFields([
             {
                 name: `Duración:`,
-                value: `${song?.formattedDuration}`,
+                value: `${data.song?.formattedDuration}`,
                 inline: true
             },
             {
                 name: `Total:`,
-                value: `${queue?.formattedDuration}`,
+                value: `${data.queue?.formattedDuration}`,
                 inline: true
             },
             {
                 name: `Fuente:`,
-                value: `${song?.source}`,
+                value: `${data.song?.source}`,
                 inline: true
             },
             {
                 name: `Estado`,
-                value: `${queue?.paused ? "Pausado" : "Reproduciendo"}`,
+                value: `${data.queue?.paused ? "Pausado" : "Reproduciendo"}`,
                 inline: true
             },
             {
                 name: `Autoplay:`,
-                value: `🎵 ${queue?.autoplay ? "Activo" : "Deshabilitado"}`,
+                value: `🎵 ${data.queue?.autoplay ? "Activo" : "Deshabilitado"}`,
                 inline: true
             },
             {
                 name: `Repetir`,
-                value: `🔁 ${!queue?.repeatMode 
-                    ? "Deshabilitado" 
-                    : (queue?.repeatMode === 1 
-                        ? "Canción" 
+                value: `🔁 ${!data.queue?.repeatMode
+                    ? "Deshabilitado"
+                    : (data.queue?.repeatMode === 1
+                        ? "Canción"
                         : "Lista")}`,
-                inline: true                
+                inline: true
             }
         ])
-        .setThumbnail(song?.thumbnail!)
+        .setThumbnail(data.song?.thumbnail!)
         .setFooter({
-            text: `Petición de ${song?.member?.displayName}`,
+            text: `Petición de ${data.song?.member?.displayName}`,
         })
 }
 
-export const PLAYER_QUEUE = async (queue?: Queue, song?: Song, isEmpty?: boolean) => {
-    if (isEmpty) {
-        return new EmbedBuilder()
-            .setColor(Colors.LuminousVividPink)
-            .setAuthor({
-                name: `Lista de reproducción`,
-            })
-            .setDescription("No hay canciones en espera")
-    }
-    return new EmbedBuilder()
+export const PLAYER_QUEUE = async (data: PlayerQueue) => {
+    let queueText: string | undefined = "No hay canciones en espera";
 
+    if (!data.isEmpty) {
+        const queueArray = data.queue?.songs.map((song, index) => {
+            return `${index + 1}. ${song.name}`;
+        })
+    
+        if (queueArray?.length === 1) {
+            queueArray[0] = queueText;
+        } else {
+            queueArray?.shift()
+        }
+    
+        queueText = queueArray?.join("\n");
+    }
+
+    return new EmbedBuilder()
+        .setColor(Colors.LuminousVividPink)
+        .setAuthor({
+            name: `Lista de reproducción`,
+        })
+        .setDescription(queueText!);
+}
+
+export const ADDING_SONG = async (data: PlayerQueue) => {
+    return new EmbedBuilder()
+        .setColor(Colors.LuminousVividPink)
+        .setAuthor({
+            name: `${data.song?.member?.displayName} ha añadido una canción`,
+            iconURL: "https://cdn-icons-png.flaticon.com/512/2995/2995101.png"
+        })
+        .setDescription(`${data.song?.name} en la posición: ${data.queue!.songs.length + 1}`)
+}
+
+export const PLAYER_NO_PREVIOUS = async () => {
+    return new EmbedBuilder()
+        .setColor(Colors.LuminousVividPink)
+        .setAuthor({
+            name: `Lista de reproducción`
+        })
+        .setDescription("No hay canciones anteriores!")
 }
 
 export const configMessageEmbed = async (config: configVariablesTypes) => {
@@ -88,7 +119,7 @@ export const configMessageEmbed = async (config: configVariablesTypes) => {
 
             El uso de este canal debe ser exclusivo del Bot y cambiar de forma manual cualquier mensaje puede afectar algunas funcionalidades de **Uraraka Ochaco Discord Bot** como las definidas en el siguiente mensaje.
 
-            ESTE CANAL NO ES PARA USO DEL CHAT, ESCRIBIR AQUI O ELIMINAR MENSAJES DAÑARA LAS FUNCIONES DEL BOT.
+            ESTE CANAL NO ES PARA USO DEL CHAT, ESCRIBIR AQUÍ O ELIMINAR MENSAJES DAÑARA LAS FUNCIONES DEL BOT.
 
             **Lista de los comandos actualmente disponibles para el administrador**
         `)

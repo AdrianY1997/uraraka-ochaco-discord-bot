@@ -43,13 +43,33 @@ export default new CommandBuilder()
                         ]
                     })
 
-                    player = await channel.send({embeds: [await PLAYER_INFO(undefined, undefined, true)]})
-                    queue = await channel.send({ embeds: [await PLAYER_QUEUE(undefined, undefined, true)]})
+                    player = await channel.send({
+                        embeds: [await PLAYER_INFO({
+                            queue: undefined, song: undefined,
+                            isNew: true
+                        })]
+                    })
+                    queue = await channel.send({
+                        embeds: [await PLAYER_QUEUE({
+                            queue: undefined, song: undefined,
+                            isEmpty: true
+                        })]
+                    })
                 } else {
                     channel = channel as TextChannel
                     channel.bulkDelete((await channel.messages.fetch()).size)
-                    player = await channel.send({embeds: [await PLAYER_INFO(undefined, undefined, true)]})
-                    queue = await channel.send({ embeds: [await PLAYER_QUEUE(undefined, undefined, true)]})
+                    player = await channel.send({
+                        embeds: [await PLAYER_INFO({
+                            queue: undefined, song: undefined,
+                            isNew: true
+                        })]
+                    })
+                    queue = await channel.send({
+                        embeds: [await PLAYER_QUEUE({
+                            queue: undefined, song: undefined,
+                            isEmpty: true
+                        })]
+                    })
                 }
 
                 guild.uraraka_config.musicChannel.id = channel.id

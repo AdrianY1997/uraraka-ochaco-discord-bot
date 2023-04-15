@@ -6,12 +6,13 @@ export default new EventBuilder('interactionCreate')
     .setCallback(async (client, interaction) => {
 
         if (interaction.isAutocomplete()) {
-            const song = interaction.options.getString("song")
-            if (song) {
-                const related = (await client.distube.search(song)).map(r => r.name)
-
-                interaction.respond(related.map(r => ({name: r ?? "", value: r ?? ""})));
-            }
+            try {
+                const song = interaction.options.getString("song")
+                if (song) {
+                    const related = (await client.distube.search(song)).map(r => r.name)
+                    interaction.respond(related.map(r => ({ name: r ?? "", value: r ?? "" })));
+                }
+            } catch (error) { }
         }
 
         if (!interaction.isChatInputCommand()) return;
